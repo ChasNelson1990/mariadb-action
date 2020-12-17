@@ -2,14 +2,14 @@
 
 docker_run="docker run"
 
-echo "$INPUT_MYSQL_ROOT_PASSWORD"
+echo "$INPUT_ROOT_PASSWORD"
 echo "$INPUT_PRIMARY_DATABASE"
 echo "$INPUT_SECONDARY_DATABASE"
 
-if [ -n "$INPUT_MYSQL_ROOT_PASSWORD" ]; then
+if [ -n "$INPUT_ROOT_PASSWORD" ]; then
   echo "Root password not empty, use root superuser"
 
-  docker_run="$docker_run -e MYSQL_ROOT_PASSWORD=$INPUT_MYSQL_ROOT_PASSWORD"
+  docker_run="$docker_run -e ROOT_PASSWORD=$INPUT_ROOT_PASSWORD"
 elif [ -n "$INPUT_MYSQL_USER" ]; then
   if [ -z "$INPUT_MYSQL_PASSWORD" ]; then
     echo "The mysql password must not be empty when mysql user exists"
@@ -49,10 +49,10 @@ sleep 10
 
 echo "before"
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
-    if [ -n "$INPUT_MYSQL_ROOT_PASSWORD" ]; then
+    if [ -n "$INPUT_ROOT_PASSWORD" ]; then
         echo "Use specified secondary database with root user and root password"
 
-        sh -c docker exec -t mariadb:$INPUT_MARIADB_VERSION sh -c "mysql -u root -p$INPUT_MYSQL_ROOT_PASSWORD<<<\"CREATE DATABASE IF NOT EXISTS \`$INPUT_SECONDARY_DATABASE\` ;GRANT ALL ON \`$INPUT_SECONDARY_DATABASE\`.* TO 'root'@'%' ;\""
+        sh -c docker exec -t mariadb:$INPUT_MARIADB_VERSION sh -c "mysql -u root -p$INPUT_ROOT_PASSWORD<<<\"CREATE DATABASE IF NOT EXISTS \`$INPUT_SECONDARY_DATABASE\` ;GRANT ALL ON \`$INPUT_SECONDARY_DATABASE\`.* TO 'root'@'%' ;\""
     elif [ -n "$INPUT_MYSQL_USER" ]; then
         echo "Use specified secondary database with specified user and password"
 
