@@ -1,12 +1,12 @@
-import * as _ from 'lodash/fp';
+import * as _ from "lodash/fp";
 
 const args: { [key: string]: string } = _.pipe(
   _.map((value: string) => {
-    if (!value.startsWith('--')) {
+    if (!value.startsWith("--")) {
       return undefined;
     }
 
-    const index = value.indexOf('=', 2);
+    const index = value.indexOf("=", 2);
 
     if (index < 0) {
       return undefined;
@@ -15,7 +15,7 @@ const args: { [key: string]: string } = _.pipe(
     return [value.substring(2, index), value.substring(index + 1)];
   }),
   _.filter((value) => value !== undefined),
-  _.fromPairs,
+  _.fromPairs
 )(process.argv);
 
 export function required(key: string): string {

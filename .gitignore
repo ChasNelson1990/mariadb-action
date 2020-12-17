@@ -2,10 +2,12 @@
 
 .DS_Store
 
-### NPM (using YARN, sorry NPM)
+### NPM
 
 node_modules/
-package-lock.json
+
+### YARN
+yarn.lock
 
 ### ENVIRONMENT
 .env
