@@ -27,13 +27,19 @@ if [ -n "$INPUT_PRIMARY_DATABASE" ]; then
   docker_run="$docker_run -e MYSQL_DATABASE=$INPUT_PRIMARY_DATABASE"
 fi
 
-echo "Use specified versiob and ports"
+echo "Use specified version and ports"
 docker_run="$docker_run -d -p $INPUT_HOST_PORT:$INPUT_CONTAINER_PORT mariadb:$INPUT_MARIADB_VERSION --port=$INPUT_CONTAINER_PORT"
 
 echo "Use specified character set and collation"
 docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --collation-server=$INPUT_COLLATION_SERVER"
 
 sh -c "$docker_run"
+
+echo "Wait for mariadb to be up and running"
+while ! nc -z localhost 3306; do   
+  sleep 0.25 # wait for 1/4 of the second before check again
+done
+
 sh -c "docker ps"
 
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
