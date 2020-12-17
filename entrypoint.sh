@@ -45,9 +45,13 @@ sleep 10
 
 echo "before"
 echo "$INPUT_SECONDARY_DATABASE"
+echo "$INPUT_MYSQL_ROOT_PASSWORD"
 echo "$INPUT_MYSQL_USER"
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
-    if [ -n "$INPUT_MYSQL_USER" ]; then
+    if [ -n "$INPUT_MYSQL_ROOT_PASSWORD" ]; then
+        echo "Use specified secondary database with root user and root password"
+        sh -c docker exec -t mariadb:$INPUT_MARIADB_VERSION sh -c "mysql -u root -p$INPUT_MYSQL_ROOT_PASSWORD<<<\"CREATE DATABASE IF NOT EXISTS \`$INPUT_SECONDARY_DATABASE\` ;GRANT ALL ON \`$INPUT_SECONDARY_DATABASE\`.* TO 'root'@'%' ;\""
+    elif [ -n "$INPUT_MYSQL_USER" ]; then
         echo "Use specified secondary database with specified user and password"
         sh -c docker exec -t mariadb:$INPUT_MARIADB_VERSION sh -c "mysql -u $INPUT_MYSQL_USER -p$INPUT_MYSQL_PASSWORD<<<\"CREATE DATABASE IF NOT EXISTS \`$INPUT_SECONDARY_DATABASE\` ;GRANT ALL ON \`$INPUT_SECONDARY_DATABASE\`.* TO '$INPUT_MYSQL_USER'@'%' ;\""
     fi
