@@ -37,7 +37,7 @@ docker_run="$docker_run -d -p $INPUT_HOST_PORT:$INPUT_CONTAINER_PORT mariadb:$IN
 echo "Use specified character set and collation"
 docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --collation-server=$INPUT_COLLATION_SERVER"
 
-sh -c "$docker_run"
+sh -c "$docker_run --name mariadb"
 
 # echo "Wait for mariadb to be up and running"
 # while ! nc -z 0.0.0.0 3306 </dev/null; do
@@ -49,15 +49,21 @@ sleep 10
 
 echo "before"
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
+    echo "Use specified secondary database"
+
+    database_add="docker exec mariadb -e mariadb_name=$INPUT_SECONDARY_DATABASE"
     if [ -n "$INPUT_ROOT_PASSWORD" ]; then
-        echo "Use specified secondary database with root user and root password"
+        echo "...with root user and root password"
 
-        sh -c docker exec -t mariadb:$INPUT_MARIADB_VERSION sh -c "mysql -u root -p$INPUT_ROOT_PASSWORD<<<\"CREATE DATABASE IF NOT EXISTS \`$INPUT_SECONDARY_DATABASE\` ;GRANT ALL ON \`$INPUT_SECONDARY_DATABASE\`.* TO 'root'@'%' ;\""
+        database_add="$database_add -e mariadb_user=root -e mariadb_pass=$INPUT_ROOT_PASSWORD"
     elif [ -n "$INPUT_MYSQL_USER" ]; then
-        echo "Use specified secondary database with specified user and password"
+        echo "...with specified user and password"
 
-        sh -c docker exec -t mariadb:$INPUT_MARIADB_VERSION sh -c "mysql -u $INPUT_MYSQL_USER -p$INPUT_MYSQL_PASSWORD<<<\"CREATE DATABASE IF NOT EXISTS \`$INPUT_SECONDARY_DATABASE\` ;GRANT ALL ON \`$INPUT_SECONDARY_DATABASE\`.* TO '$INPUT_MYSQL_USER'@'%' ;\""
+        database_add="$database_add -e mariadb_user=$INPUT_MYSQL_USER -e mariadb_pass=$INPUT_MYSQL_PASSWORD"
     fi
+    
+    echo $database_add
+    sh -c $database_add
 fi
 
 echo "after"
