@@ -1,47 +1,47 @@
 name: "Start MariaDB"
-description: "Start a MariaDB database"
-author: "getong"
+description: "Start a MariaDB instance with two databases"
+author: "ChasNelson1990"
 branding:
   icon: "database"
   color: "green"
 inputs:
-  host port:
+  host_port:
     description: "The port of host"
     required: false
-    default: 3306
-  container port:
+    default: "3306"
+  container_port:
     description: "The port of container"
     required: false
-    default: 3306
-  character set server:
+    default: "3306"
+  character_set_server:
     description: "--character-set-server - The character set of MySQL server"
     required: false
     default: "utf8mb4"
-  collation server:
+  collation_server:
     description: "--collation-server - The character collation of MySQL server"
     required: false
     default: "utf8mb4_general_ci"
-  mariadb version:
+  mariadb_version:
     description: "Version of MariaDB to use"
     required: false
     default: "latest"
-  mysql root password:
+  root_password:
     description: "MYSQL_ROOT_PASSWORD - root superuser password"
     required: false
     default: ""
-  primary database:
+  primary_database:
     description: "MYSQL_DATABASE - name for the default database that is created"
     required: false
     default: ""
-  secondary database:
+  secondary_database:
     description: "MYSQL_DATABASE - name for the secondary database that is created"
     required: false
     default: ""
-  mysql user:
+  mysql_user:
     description: "MYSQL_USER - create the specified user with superuser power for created database"
     required: false
     default: ""
-  mysql password:
+  mysql_password:
     description: "MYSQL_PASSWORD - specified superuser password which user is power for created database"
     required: false
     default: ""

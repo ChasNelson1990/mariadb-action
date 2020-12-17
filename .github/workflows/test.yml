@@ -20,7 +20,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Set up MariaDB 10
         uses: ChasNelson1990/mariadb-action@master
-        env:
+        with:
           mariadb_version: 10.4.10
           primary_database: database
           secondary_database: test_database
