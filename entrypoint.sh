@@ -44,6 +44,8 @@ sh -c "$docker_run"
 sleep 10
 
 echo "before"
+echo "$INPUT_SECONDARY_DATABASE"
+echo "$INPUT_MYSQL_USER"
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
     if [ -n "$INPUT_MYSQL_USER" ]; then
         echo "Use specified secondary database with specified user and password"
