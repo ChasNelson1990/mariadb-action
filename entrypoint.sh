@@ -5,7 +5,7 @@ docker_run="docker run --name mariadb -v secondary_database.sh:/docker-entrypoin
 if [ -n "$INPUT_ROOT_PASSWORD" ]; then
   echo "Root password not empty, use root superuser"
 
-  docker_run="$docker_run -e ROOT_PASSWORD=$INPUT_ROOT_PASSWORD"
+  docker_run="$docker_run -e MYSQL_ROOT_PASSWORD=$INPUT_ROOT_PASSWORD"
 elif [ -n "$INPUT_MYSQL_USER" ]; then
   if [ -z "$INPUT_MYSQL_PASSWORD" ]; then
     echo "The mysql password must not be empty when mysql user exists"
