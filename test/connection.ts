@@ -1,7 +1,7 @@
-import { promisify } from "util";
-import { createConnection } from "mysql";
+import { promisify } from 'util';
+import { createConnection } from 'mysql';
 
-import { required } from "./arguments";
+import { required } from './arguments';
 
 export interface Queryer {
   init(): Promise<void>;
@@ -11,9 +11,9 @@ export interface Queryer {
 
 function createQueryer(db: string): Queryer {
   const connection = createConnection({
-    host: "localhost",
-    user: "root",
-    password: required("password"),
+    host: 'localhost',
+    user: 'root',
+    password: required('password'),
     database: db,
   });
 
