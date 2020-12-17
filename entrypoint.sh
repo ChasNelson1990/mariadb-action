@@ -36,3 +36,4 @@ docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --col
 sh -c "$docker_run"
 
 sleep 60
+sh -c "docker ps"  # useful for debugging
