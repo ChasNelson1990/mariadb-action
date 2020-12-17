@@ -33,22 +33,12 @@ docker_run="$docker_run -d -p $INPUT_HOST_PORT:$INPUT_CONTAINER_PORT mariadb:$IN
 echo "Use specified character set and collation"
 docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --collation-server=$INPUT_COLLATION_SERVER"
 
-echo $docker_run
+sh -c "$docker_run"
+sh -c "docker ps"
 
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
-    echo "Use specified secondary database"
-    docker_run = "$docker_run <<<\"CREATE DATABASE IF NOT EXISTS \`test_$INPUT_SECONDARY_DATABASE\` ;"
-    echo $docker_run
     if [ -n "$INPUT_MYSQL_USER" ]; then
-        echo "And asign to specified user"
-        docker_run = "$docker_run GRANT ALL ON \`test_${INPUT_SECONDARY_DATABASE//_/\\_}\`.* TO '$INPUT_MYSQL_USER'@'%' ;\""
-        echo $docker_run
-    else
-        docker_run = "$docker_run\""
-        echo $docker_run
+        echo "Use specified secondary database with specified user and password"
+        sh -c docker exec -t mariadb:$INPUT_MARIADB_VERSION sh -c "mysql -u $INPUT_MYSQL_USER -p$INPUT_MYSQL_PASSWORD<<<\"CREATE DATABASE IF NOT EXISTS \`$INPUT_SECONDARY_DATABASE\` ;GRANT ALL ON \`$INPUT_SECONDARY_DATABASE\`.* TO '$INPUT_MYSQL_USER'@'%' ;\""
     fi
 fi
-
-echo $docker_run
-
-sh -c "$docker_run"
