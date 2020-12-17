@@ -37,11 +37,10 @@ sh -c "$docker_run"
 
 echo "Wait for mariadb to be up and running"
 while ! nc -z localhost 3306 </dev/null; do
-  echo ${nc -z localhost 3306}
+  sh -c "docker ps"
   sleep 1 # wait for 1 of the second before check again
 done
 
-sh -c "docker ps"
 
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
     if [ -n "$INPUT_MYSQL_USER" ]; then
