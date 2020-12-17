@@ -1,6 +1,6 @@
 #!/bin/sh
 
-docker_run="docker run --name mariadb -v /initdb.d:/docker-entrypoint-initdb.d"
+docker_run="docker run --name mariadb -v \"secondary_database.sh\":\"/docker-entrypoint-initdb.d/secondary_database.sh\""
 
 if [ -n "$INPUT_ROOT_PASSWORD" ]; then
   echo "Root password not empty, use root superuser"
