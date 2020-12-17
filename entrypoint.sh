@@ -2,6 +2,12 @@
 
 docker_run="docker run"
 
+echo "$INPUT_MYSQL_ROOT_PASSWORD"
+echo "$INPUT_MYSQL_USER"
+echo "$INPUT_MYSQL_PASSWORD"
+echo "$INPUT_PRIMARY_DATABASE"
+echo "$INPUT_SECONDARY_DATABASE"
+
 if [ -n "$INPUT_MYSQL_ROOT_PASSWORD" ]; then
   echo "Root password not empty, use root superuser"
 
@@ -44,9 +50,6 @@ sh -c "$docker_run"
 sleep 10
 
 echo "before"
-echo "$INPUT_SECONDARY_DATABASE"
-echo "$INPUT_MYSQL_ROOT_PASSWORD"
-echo "$INPUT_MYSQL_USER"
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
     if [ -n "$INPUT_MYSQL_ROOT_PASSWORD" ]; then
         echo "Use specified secondary database with root user and root password"
