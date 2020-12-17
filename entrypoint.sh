@@ -35,6 +35,10 @@ docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --col
 
 sh -c "$docker_run"
 sh -c "docker ps"  # useful for debugging
+sleep 5
+sh -c "docker ps"  # useful for debugging
+sleep 5
+sh -c "docker ps"  # useful for debugging
 sh -c "docker logs mariadb:$INPUT_MARIADB_VERSION"  # useful for debugging
 
-sleep 60
+sleep 10
