@@ -1,6 +1,9 @@
-# MariaDB GitHub Action
+# MariaDB GitHub Action - with added test database
 
-This [GitHub Action](https://github.com/features/actions) sets up a MariaDB database.
+This [GitHub Action](https://github.com/features/actions) sets up a MariaDB database plus a second test database.
+I developed this for running GitHub Actions that run through a suite of Django tests and confirm a Django instance runs.
+To ensure I don't ever overwrite a production database with tests, I usually use two separate databases $DATABASE and test\_$DATABASE.
+This action should be general enough to allow you create two databases with any names though.
 
 It is based on the Docker container and is limited by Github Actions, which contains only Linux now. Therefore it does not work in Mac OS and Windows environment.
 
@@ -8,14 +11,15 @@ It is based on the Docker container and is limited by Github Actions, which cont
 
 ```yaml
 steps:
-- uses: getong/mariadb-action@v1.1
+- uses: ChasNelson1990/mariadb-action@v1.1
   with:
     host port: 3800 # Optional, default value is 3306. The port of host
     container port: 3307 # Optional, default value is 3306. The port of container
     character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
     collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
     mariadb version: '10.4.10' # Optional, default value is "latest". The version of the MariaDB
-    mysql database: 'some_test' # Optional, default value is "test". The specified database which will be create
+    primary database: 'some_test' # Optional, default value is "test". The specified database which will be create
+    secondary database: 'some_test' # Optional, default value is "test". The specified database which will be create
     mysql root password: ${{ secrets.RootPassword }} # Required if "mysql user" is empty, default is empty. The root superuser password
     mysql user: 'developer' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
     mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
@@ -27,7 +31,7 @@ See [Creating and using secrets (encrypted variables)](https://help.github.com/e
 
 ## The Default MySQL
 
-MySQL *may* be installed and started by Github Actions (aka. the Default MySQL), that version is 5.7 generally, root superuser password is "root" and port is 3306. See [Software in virtual environments for GitHub Actions](https://help.github.com/en/articles/software-in-virtual-environments-for-github-actions).
+MySQL _may_ be installed and started by Github Actions (aka. the Default MySQL), that version is 5.7 generally, root superuser password is "root" and port is 3306. See [Software in virtual environments for GitHub Actions](https://help.github.com/en/articles/software-in-virtual-environments-for-github-actions).
 
 So before set-up a MySQL which host port is 3306 in Docker, please make sure the Default MySQL has been shutted-down. Otherwise, action will fail and print an error log that looks like: `Error starting userland proxy: listen tcp 0.0.0.0:3306: bind: address already in use.` (See [#2](https://github.com/mirromutth/mysql-action/issues/2))
 
@@ -50,7 +54,7 @@ jobs:
 
     - # ... some steps before set-up MySQL ...
     - name: Set up MariaDB
-      uses: getong/mariadb-action@v1.1
+      uses: ChasNelson1990/mariadb-action@v1.1
       with:
         # ... Set-up MariaDB configuration, see Usage
 
