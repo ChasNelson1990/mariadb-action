@@ -1,6 +1,6 @@
 #!/bin/sh
 
-docker_run="docker run -v secondary_database.sh:/docker-entrypoint-initdb.d/secondary_database.sh"
+docker_run="docker run --name mariadb -v secondary_database.sh:/docker-entrypoint-initdb.d/secondary_database.sh"
 
 if [ -n "$INPUT_ROOT_PASSWORD" ]; then
   echo "Root password not empty, use root superuser"
@@ -34,11 +34,13 @@ echo "Use specified character set and collation"
 docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --collation-server=$INPUT_COLLATION_SERVER"
 
 sh -c "$docker_run"
+sh -c "docker logs mariadb"  # useful for debugging
 sh -c "docker ps"  # useful for debugging
 sleep 5
+sh -c "docker logs mariadb"  # useful for debugging
 sh -c "docker ps"  # useful for debugging
 sleep 5
+sh -c "docker logs mariadb"  # useful for debugging
 sh -c "docker ps"  # useful for debugging
-sh -c "docker logs mariadb:$INPUT_MARIADB_VERSION"  # useful for debugging
 
 sleep 10
