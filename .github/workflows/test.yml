@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ['10.x']
+        node-version: ["10.x"]
 
     steps:
     - uses: actions/checkout@v1
@@ -19,15 +19,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Set up MariaDB 10
-      uses: getong/mariadb-action@master
+        uses: ChasNelson1990/mariadb-action@master
       with:
         mysql version: 10.4.10
         mysql database: test
-        mysql root password: ${{ secrets.DatabasePassword }}
+          mysql root password: ${{ secrets.DATABASE_PASSWORD }}
     - name: npm install, build, and test
       run: |
         npm install
         npm run lint
-        npm test -- --password=${{ secrets.DatabasePassword }}
+          npm test -- --password=${{ secrets.DATABASEPASSWORD }}
       env:
         CI: true
