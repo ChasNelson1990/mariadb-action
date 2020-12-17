@@ -22,12 +22,28 @@ else
 fi
 
 if [ -n "$INPUT_MYSQL_DATABASE" ]; then
-  echo "Use specified database"
+  echo "Use specified primary database"
 
   docker_run="$docker_run -e MYSQL_DATABASE=$INPUT_MYSQL_DATABASE"
 fi
 
+echo "Use specified versiob and ports"
 docker_run="$docker_run -d -p $INPUT_HOST_PORT:$INPUT_CONTAINER_PORT mariadb:$INPUT_MARIADB_VERSION --port=$INPUT_CONTAINER_PORT"
+
+echo "Use specified character set and collation"
 docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --collation-server=$INPUT_COLLATION_SERVER"
+
+if [ -n "$INPUT_MYSQL_DATABASE" ]; then
+    echo "Use specified secondary database"
+    docker_run = "$docker_run <<<\"CREATE DATABASE IF NOT EXISTS \`test_$INPUT_MYSQL_DATABASE\` ;"
+    if [ -n "$INPUT_MYSQL_USER" ]; then
+        echo "And asign to specified user"
+        docker_run = "$docker_run GRANT ALL ON \`test_${INPUT_MYSQL_DATABASE//_/\\_}\`.* TO '$INPUT_MYSQL_USER'@'%' ;\""
+    else
+        docker_run = "$docker_run\""
+    fi
+fi
+
+echo docker_run
 
 sh -c "$docker_run"
