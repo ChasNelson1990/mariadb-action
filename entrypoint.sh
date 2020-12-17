@@ -36,10 +36,9 @@ docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --col
 sh -c "$docker_run"
 
 echo "Wait for mariadb to be up and running"
-nc -z localhost 3306
-while ! nc -z localhost 3306; do
-  nc -z localhost 3306
-  sleep 0.25 # wait for 1/4 of the second before check again
+while ! nc -z localhost 3306 </dev/null; do
+  echo ${nc -z localhost 3306}
+  sleep 1 # wait for 1 of the second before check again
 done
 
 sh -c "docker ps"
