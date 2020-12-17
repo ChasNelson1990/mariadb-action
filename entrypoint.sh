@@ -33,6 +33,7 @@ docker_run="$docker_run -d -p $INPUT_HOST_PORT:$INPUT_CONTAINER_PORT mariadb:$IN
 echo "Use specified character set and collation"
 docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --collation-server=$INPUT_COLLATION_SERVER"
 
+echo $docker_run
 sh -c "$docker_run"
 sh -c "docker logs mariadb"  # useful for debugging
 sh -c "docker ps"  # useful for debugging
