@@ -3,8 +3,6 @@
 docker_run="docker run"
 
 echo "$INPUT_MYSQL_ROOT_PASSWORD"
-echo "$INPUT_MYSQL_USER"
-echo "$INPUT_MYSQL_PASSWORD"
 echo "$INPUT_PRIMARY_DATABASE"
 echo "$INPUT_SECONDARY_DATABASE"
 

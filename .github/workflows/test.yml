@@ -24,10 +24,10 @@ jobs:
           mariadb_version: 10.4.10
           primary_database: database
           secondary_database: test_database
-          root_password: ${{ secrets.DATABASE_PASSWORD }}
+          root_password: testingpasswordREMOVE
       - name: npm install, build, and test
         env:
-          password: ${{ secrets.DATABASE_PASSWORD }}
+          password: testingpasswordREMOVE
         run: |
           npm install
           npm run lint
