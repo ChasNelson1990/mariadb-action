@@ -21,8 +21,9 @@ jobs:
       - name: Set up MariaDB 10
         uses: ChasNelson1990/mariadb-action@master
         with:
-          mysql version: 10.4.10
-          mysql database: test
+          mariadb version: 10.4.10
+          primary database: database
+          secondary database: test_database
           mysql root password: ${{ secrets.DATABASE_PASSWORD }}
       - name: npm install, build, and test
         run: |

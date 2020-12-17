@@ -1,4 +1,4 @@
-# MariaDB GitHub Action - with added test database
+# MariaDB GitHub Action - with two databases
 
 This [GitHub Action](https://github.com/features/actions) sets up a MariaDB database plus a second test database.
 I developed this for running GitHub Actions that run through a suite of Django tests and confirm a Django instance runs.
