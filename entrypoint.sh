@@ -21,10 +21,10 @@ else
   docker_run="$docker_run -e MYSQL_ALLOW_EMPTY_PASSWORD=true"
 fi
 
-if [ -n "$INPUT_MYSQL_DATABASE" ]; then
+if [ -n "$INPUT_PRIMARY_DATABASE" ]; then
   echo "Use specified primary database"
 
-  docker_run="$docker_run -e MYSQL_DATABASE=$INPUT_MYSQL_DATABASE"
+  docker_run="$docker_run -e MYSQL_DATABASE=$INPUT_PRIMARY_DATABASE"
 fi
 
 echo "Use specified versiob and ports"
@@ -33,17 +33,17 @@ docker_run="$docker_run -d -p $INPUT_HOST_PORT:$INPUT_CONTAINER_PORT mariadb:$IN
 echo "Use specified character set and collation"
 docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --collation-server=$INPUT_COLLATION_SERVER"
 
-if [ -n "$INPUT_MYSQL_DATABASE" ]; then
+if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
     echo "Use specified secondary database"
-    docker_run = "$docker_run <<<\"CREATE DATABASE IF NOT EXISTS \`test_$INPUT_MYSQL_DATABASE\` ;"
+    docker_run = "$docker_run <<<\"CREATE DATABASE IF NOT EXISTS \`test_$INPUT_SECONDARY_DATABASE\` ;"
     if [ -n "$INPUT_MYSQL_USER" ]; then
         echo "And asign to specified user"
-        docker_run = "$docker_run GRANT ALL ON \`test_${INPUT_MYSQL_DATABASE//_/\\_}\`.* TO '$INPUT_MYSQL_USER'@'%' ;\""
+        docker_run = "$docker_run GRANT ALL ON \`test_${INPUT_SECONDARY_DATABASE//_/\\_}\`.* TO '$INPUT_MYSQL_USER'@'%' ;\""
     else
         docker_run = "$docker_run\""
     fi
 fi
 
-echo docker_run
+echo $docker_run
 
 sh -c "$docker_run"
