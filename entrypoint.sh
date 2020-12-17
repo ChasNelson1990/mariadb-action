@@ -34,7 +34,7 @@ echo "Use specified character set and collation"
 docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --collation-server=$INPUT_COLLATION_SERVER"
 
 sh -c "$docker_run"
-
-sleep 60
 sh -c "docker ps"  # useful for debugging
 sh -c "docker logs mariadb:$INPUT_MARIADB_VERSION"  # useful for debugging
+
+sleep 60
