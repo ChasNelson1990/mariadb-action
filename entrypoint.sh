@@ -35,11 +35,11 @@ docker_run="$docker_run --character-set-server=$INPUT_CHARACTER_SET_SERVER --col
 
 sh -c "$docker_run"
 
-echo "Wait for mariadb to be up and running"
-while ! nc -z 0.0.0.0 3306 </dev/null; do
-  sh -c "docker ps"
-  sleep 1 # wait for 1 of the second before check again
-done
+# echo "Wait for mariadb to be up and running"
+# while ! nc -z 0.0.0.0 3306 </dev/null; do
+#   sh -c "docker ps"
+#   sleep 1 # wait for 1 of the second before check again
+# done
 
 
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
