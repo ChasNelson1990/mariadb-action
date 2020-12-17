@@ -41,6 +41,8 @@ sh -c "$docker_run"
 #   sleep 1 # wait for 1 of the second before check again
 # done
 
+sleep 10
+
 
 if [ -n "$INPUT_SECONDARY_DATABASE" ]; then
     if [ -n "$INPUT_MYSQL_USER" ]; then
