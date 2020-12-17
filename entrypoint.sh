@@ -37,3 +37,4 @@ sh -c "$docker_run"
 
 sleep 60
 sh -c "docker ps"  # useful for debugging
+sh -c "docker logs mariadb:$INPUT_MARIADB_VERSION"  # useful for debugging
